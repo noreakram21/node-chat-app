@@ -7,10 +7,10 @@
 				text: 'YahYahYahYah'
 			});
 
-			socket.emit('createMessage',{
-				from: "tutz",
-				text: "yYyYYyYyYyYyYyyYyY"
-			});
+			// socket.emit('createMessage',{
+			// 	from: "tutz",
+			// 	text: "yYyYYyYyYyYyYyyYyY"
+			// });
 
 		});
 		socket.on('disconnect',function(){

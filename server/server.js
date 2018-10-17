@@ -21,11 +21,11 @@ io.on('connection',(socket)=>{
 		createAt: 123
 	});
 
-	socket.emit('newMessage',{
-		from: 'Mark Aeron',
-		text: 'zZZzZzZzZzZzZzZzzZzZzZ',
-		create:21312432
-	});
+	// socket.emit('newMessage',{
+	// 	from: 'Mark Aeron',
+	// 	text: 'zZZzZzZzZzZzZzZzzZzZzZ',
+	// 	create:21312432
+	// });
 
 	socket.on('createEmail',(newEmail)=>{
 		console.log('createEmail', newEmail);
@@ -36,6 +36,12 @@ io.on('connection',(socket)=>{
 
 	socket.on('createMessage',(createdMessage)=>{
 		console.log(createdMessage);
+		io.emit('newMeesage',{
+
+			from:createdMessage.from,
+			text:createdMessage.text,
+			createdAt: new Date().getTime()
+		});
 	});
 });
 
