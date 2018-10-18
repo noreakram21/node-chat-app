@@ -37,10 +37,11 @@ io.on('connection',(socket)=>{
 		// console.log('createEmail', newEmail);
 	});
 
-		socket.on('createMessage',(createdMessage)=>{
+		socket.on('createMessage',(createdMessage, callback)=>{
 		console.log(createdMessage);
 		io.emit('newMessage', generateMessage(createdMessage.from,createdMessage.text));
-		// {
+			callback('This is from the server');
+			// {
 		// 	from:createdMessage.from,
 		// 	text:createdMessage.text,
 		// 	createdAt: new Date().getTime()
