@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
-
+const {generateMessage} = require('./utils/message');
 //app.listen(port, () => { console.log(`App listening on port ${port}!`); })
 
 app.use(express.static(publicPath));
@@ -26,18 +26,10 @@ io.on('connection',(socket)=>{
 	// 	text: 'zZZzZzZzZzZzZzZzzZzZzZ',
 	// 	create:21312432
 	// });
-		io.emit('newMessage',{
-			from:'Admin',
-			text:'Welcome to the chat app',
-			createdAt: new Date().getTime()
+		socket.emit('newMessage', generateMessage('Admin','Welcome to the chat app'))
 		
-		});
-		socket.broadcast.emit('newMessage',{
-			from:'Admin',
-			text: 'new user join',
-			createdAt: new Date().getTime()
-		
-		});
+
+		socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
 
 
@@ -47,11 +39,12 @@ io.on('connection',(socket)=>{
 
 		socket.on('createMessage',(createdMessage)=>{
 		console.log(createdMessage);
-		io.emit('newMessage',{
-			from:createdMessage.from,
-			text:createdMessage.text,
-			createdAt: new Date().getTime()
-		});
+		io.emit('newMessage', generateMessage(createdMessage.from,createdMessage.text));
+		// {
+		// 	from:createdMessage.from,
+		// 	text:createdMessage.text,
+		// 	createdAt: new Date().getTime()
+		// });
 		// socket.broadcast.emit('newMessage',{
 		// 	from: createdMessage.from,
 		// 	text: createdMessage.text,
