@@ -28,7 +28,14 @@
 
 		$('#messages').append(li);
 	});
-
+		socket.on('newLocationMessage', function (message){
+			let li = $('<li></li>');
+			let a = $('<a target="_blank"> My current Location</a>');
+			li.text(`${message.from}:`);
+			a.attr('href',message.url);
+			li.append(a);
+			$('#messages').append(li);
+		});
 	// socket.emit('createMessage', {
 	// 	from: 'tute',
 	// 	text: 'Hi'
@@ -44,4 +51,22 @@
 		}, function (){
 
 		});
+	});
+
+
+	let locationButton = $('#send-location');
+
+	locationButton.on('click', function (){
+	if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+    	socket.emit('createLocationMessage',{
+    		latitude: position.coords.latitude,
+    		longitude: position.coords.longitude
+    	});
+    }, function(error) {
+  		alert('Unable to fetch location');
+    });
+} else {
+   console.log('Geolocation not supported to your browser');
+}
 	});

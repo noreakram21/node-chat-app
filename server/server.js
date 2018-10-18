@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 let app = express();
 let server = http.createServer(app);
 let io = socketIO(server);
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 //app.listen(port, () => { console.log(`App listening on port ${port}!`); })
 
 app.use(express.static(publicPath));
@@ -40,18 +40,12 @@ io.on('connection',(socket)=>{
 		socket.on('createMessage',(createdMessage, callback)=>{
 		console.log(createdMessage);
 		io.emit('newMessage', generateMessage(createdMessage.from,createdMessage.text));
-			callback('This is from the server');
-			// {
-		// 	from:createdMessage.from,
-		// 	text:createdMessage.text,
-		// 	createdAt: new Date().getTime()
-		// });
-		// socket.broadcast.emit('newMessage',{
-		// 	from: createdMessage.from,
-		// 	text: createdMessage.text,
-		// 	createdAt: new Date().getTime()
-		// });
+			callback('This is from the server');	
 	});
+
+		socket.on('createLocationMessage', (coords) =>{
+			io.emit('newLocationMessage',generateLocationMessage('Admin',coords.latitude, coords.longitude));
+		});
 	socket.on('disconnect',()=>{
 			console.log('User disconnect');
 		});
