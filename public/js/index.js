@@ -45,11 +45,14 @@
 
 	$('#message-form').on('submit', function (e) {
 		e.preventDefault();
+
+		let messageTextbox = $('[name=message]');
+
 		socket.emit('createMessage', {
 			from: 'User',
-			text:$('[name=message]').val()
+			text:messageTextbox.val()
 		}, function (){
-
+			messageTextbox.val('');
 		});
 	});
 
@@ -58,6 +61,7 @@
 
 	locationButton.on('click', function (){
 	if (navigator.geolocation) {
+		
     navigator.geolocation.getCurrentPosition(function(position) {
     	socket.emit('createLocationMessage',{
     		latitude: position.coords.latitude,
