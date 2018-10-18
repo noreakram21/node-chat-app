@@ -26,6 +26,20 @@ io.on('connection',(socket)=>{
 	// 	text: 'zZZzZzZzZzZzZzZzzZzZzZ',
 	// 	create:21312432
 	// });
+		io.emit('newMessage',{
+			from:'Admin',
+			text:'Welcome to the chat app',
+			createdAt: new Date().getTime()
+		
+		});
+		socket.broadcast.emit('newMessage',{
+			from:'Admin',
+			text: 'new user join',
+			createdAt: new Date().getTime()
+		
+		});
+
+
 
 	socket.on('createEmail',(newEmail)=>{
 		// console.log('createEmail', newEmail);
@@ -38,6 +52,11 @@ io.on('connection',(socket)=>{
 			text:createdMessage.text,
 			createdAt: new Date().getTime()
 		});
+		// socket.broadcast.emit('newMessage',{
+		// 	from: createdMessage.from,
+		// 	text: createdMessage.text,
+		// 	createdAt: new Date().getTime()
+		// });
 	});
 	socket.on('disconnect',()=>{
 			console.log('User disconnect');
